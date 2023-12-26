@@ -33,13 +33,15 @@ const EventForm = () => {
     }
   }
  
-  const eventType:any=['decoration', 'catering','transportation','entertainment','specialGuest','promotionLmaterial'];
+  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','PromotionLmaterial'];
   const validationSchema = Yup.object().shape({
     eventName: Yup.string().required('Event Name is required'),
     date: Yup.date().required('Date is required'),
     time: Yup.string().required('Time is required'),
     venue: Yup.string().required('Venue is required'),
-    contact: Yup.string().required('Contact is required'),
+    contact: Yup.string()
+    .required('Contact is required')
+    .matches(/^\d{10}$/, 'Contact must be exactly 10 digits'),
     eventType: Yup.array().min(1, 'Select at least one event type'),
   });
   
@@ -53,10 +55,12 @@ const EventForm = () => {
         if (added) {
           formik.resetForm();
           toast.success('Data Stored in db!');
+          router.push('/dashbord')
           
         }
       } catch (err) {
         console.error(err);
+        toast.success('Error occured!');
         setErrorMessage('Error during registration');
       }
     },
@@ -70,11 +74,11 @@ const EventForm = () => {
           <form onSubmit={formik.handleSubmit}>
             {/* Event Name Field */}
             <div className="form-control">
-              <label className="block mb-2 font-bold ">Name of Event:</label>
+              <label className="block mb-1 font-bold ">Name of Event:</label>
               <input
                 type="text"
                 name="eventName"
-                className={`w-full p-2 border rounded mb-4 ${formik.touched.eventName && formik.errors.eventName ? 'border-red-500' : ''}`}
+                className={`w-full p-2 border rounded mb-1 ${formik.touched.eventName && formik.errors.eventName ? 'border-red-500' : ''}`}
                 placeholder="Event Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -86,11 +90,11 @@ const EventForm = () => {
             </div>
             {/* Date Field */}
             <div className="form-control">
-              <label className="block mb-2 font-bold">Date:</label>
+              <label className="block mb-1 font-bold">Date:</label>
               <input
                 type="date"
                 name="date"
-                className={`w-full p-2 border rounded mb-4 ${formik.touched.date && formik.errors.date ? 'border-red-500' : ''}`}
+                className={`w-full p-2 border rounded mb-1 ${formik.touched.date && formik.errors.date ? 'border-red-500' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.date}
@@ -101,11 +105,11 @@ const EventForm = () => {
             </div>
             {/* Time Field */}
             <div className="form-control">
-              <label className="block mb-2 font-bold">Time:</label>
+              <label className="block mb-1 font-bold">Time:</label>
               <input
                 type="time"
                 name="time"
-                className={`w-full p-2 border rounded mb-4 ${formik.touched.time && formik.errors.time ? 'border-red-500' : ''}`}
+                className={`w-full p-2 border rounded mb-1 ${formik.touched.time && formik.errors.time ? 'border-red-500' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.time}
@@ -116,10 +120,10 @@ const EventForm = () => {
             </div>
             {/* Venue Field */}
             <div className="form-control">
-  <label className="block mb-2 font-bold">Venue:</label>
+  <label className="block mb-1 font-bold">Venue:</label>
   <textarea
     name="venue"
-    className={`w-full p-2 border rounded mb-4 ${formik.touched.venue && formik.errors.venue ? 'border-red-500' : ''}`}
+    className={`w-full p-2 border rounded mb-1 ${formik.touched.venue && formik.errors.venue ? 'border-red-500' : ''}`}
     placeholder="Event Venue"
     onChange={formik.handleChange}
     onBlur={formik.handleBlur}
@@ -132,11 +136,11 @@ const EventForm = () => {
 
             {/* Contact Field */}
             <div className="form-control">
-              <label className="block mb-2 font-bold">Contact:</label>
+              <label className="block mb-1 font-bold">Contact:</label>
               <input
-                type="text"
+                type="tel"
                 name="contact"
-                className={`w-full p-2 border rounded mb-4 ${formik.touched.contact && formik.errors.contact ? 'border-red-500' : ''}`}
+                className={`w-full p-2 border rounded mb-1 ${formik.touched.contact && formik.errors.contact ? 'border-red-500' : ''}`}
                 placeholder="Contact"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -150,9 +154,9 @@ const EventForm = () => {
                 {/* Event Types Checkboxes */}
                  {/* Event Types Checkboxes */}
 <div className="form-control">
-  <label className="block mb-2 font-semibold">Event Types:</label>
+  <label className="block mb-1 font-semibold">Event Types:</label>
   {eventType.map((type: any) => (
-    <div key={type} className="flex items-center mb-2">
+    <div key={type} className="flex items-center mb-1">
       <input
         type="checkbox"
         id={type}
@@ -186,7 +190,7 @@ const EventForm = () => {
               <div className="error text-red-500 mt-2">{errorMessage}</div>
             )}
           </form>
-          <ToastContainer />
+         
         </div>
       </div>
     </div>

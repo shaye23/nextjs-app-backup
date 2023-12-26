@@ -4,8 +4,9 @@ import * as Yup from 'yup';
 import { db } from '@/config/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
 // Function to add data to Firestore
 async function addDataToFirestore(userInput: any) {
@@ -22,6 +23,7 @@ async function addDataToFirestore(userInput: any) {
 // Component for the registration form
 const RegisterForm = () => {
   const [errorMessage, setErrorMessage] = useState<any>();
+  const router=useRouter();
 
   // Initial form values
   const initialValues = {
@@ -35,7 +37,7 @@ const RegisterForm = () => {
 
   // List of countries
   const countries: any = ['India']; // Add your list of countries here
-  const eventType:any=['decoration', 'catering','transportation','entertainment','specialGuest','promotionLmaterial'];
+  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','PromotionLmaterial'];
 
   // List of states for each country
   const states: any = {
@@ -67,6 +69,7 @@ const RegisterForm = () => {
         if (added) {
           formik.resetForm();
           toast.success('Data Stored in db!');
+          router.push('/dashboard')
         }
       } catch (err) {
         console.error(err);
@@ -85,14 +88,14 @@ const RegisterForm = () => {
           <form onSubmit={formik.handleSubmit}>
             {/* User Name Field */}
             <div className="form-control">
-              <label className="block mb-2 font-semibold">Username:</label>
+              <label className="block mb-1 font-semibold">Name:</label>
               <input
                 type="text"
                 name="userName"
-                className={`w-full p-2 border rounded mb-4 ${
+                className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.userName && formik.errors.userName ? 'border-red-500' : ''
                 }`}
-                placeholder="Your username"
+                placeholder="username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.userName}
@@ -103,11 +106,11 @@ const RegisterForm = () => {
             </div>
             {/* Phone Number Field */}
             <div className="form-control">
-              <label className="block mb-2 font-semibold">PhoneNumber:</label>
+              <label className="block mb-1 font-semibold">Phone Number:</label>
               <input
                 type="tel"
                 name="phoneNumber"
-                className={`w-full p-2 border rounded mb-4 ${
+                className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.phoneNumber && formik.errors.phoneNumber ? 'border-red-500' : ''
                 }`}
                 placeholder="Your phonenumber"
@@ -121,11 +124,11 @@ const RegisterForm = () => {
             </div>
             {/* Email Field */}
             <div className="form-control">
-              <label className="block mb-2 font-semibold">Email:</label>
+              <label className="block mb-1 font-semibold">Email:</label>
               <input
                 type="email"
                 name="email"
-                className={`w-full p-2 border rounded mb-4 ${
+                className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.email && formik.errors.email ? 'border-red-500' : ''
                 }`}
                 placeholder="Your email"
@@ -145,7 +148,7 @@ const RegisterForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.country}
-                className={`w-full p-2 border rounded mb-4 ${
+                className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.country && formik.errors.country ? 'border-red-500' : ''
                 }`}
               >
@@ -157,18 +160,18 @@ const RegisterForm = () => {
                 ))}
               </select>
               {formik.touched.country && formik.errors.country && (
-                <div className="error text-red-500">{formik.errors.country}</div>
+                <div className="error text-red-500 mb-2">{formik.errors.country}</div>
               )}
             </div>
             {/* State Dropdown */}
             <div className="form-control">
-              <label className="block mb-2 font-semibold">State:</label>
+              <label className="block mb-1 font-semibold">State:</label>
               <select
                 name="state"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.state}
-                className={`w-full p-2 border rounded mb-4 ${
+                className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.state && formik.errors.state ? 'border-red-500' : ''
                 }`}
               >
@@ -186,9 +189,9 @@ const RegisterForm = () => {
             </div>
                {/* Event Types Checkboxes */}
                <div className="form-control">
-  <label className="block mb-2 font-semibold">Event Types:</label>
+  <label className="block mb-1 font-semibold">Event Types:</label>
   {eventType.map((type:any) => (
-    <div key={type} className="flex items-center mb-2">
+    <div key={type} className="flex items-center mb-1">
       <input
         type="checkbox"
         id={type}
@@ -219,7 +222,7 @@ const RegisterForm = () => {
               Register
             </button>
           </form>
-          <ToastContainer />
+          
         </div>
 
         {/* Error Message */}

@@ -34,11 +34,13 @@ const Login = () => {
       try {
         await login(values.email, values.password);
         toast.success('Login successful!');
-      //  await router.push('/fetchdata');
+         router.push('/dashboard');
+        
 
         // Show success notification
         
       } catch (err:any) {
+        toast.error('Login failed');
         console.error(err);
 
         console.log('Error Object:', err);
@@ -57,7 +59,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-w-full mt-20">
       <div className="w-full max-w-md p-4 bg-white rounded shadow-md">
         <div>
-          <h1 className="text-2xl font-semibold mb-4">LOGIN</h1>
+          <h1 className="text-2xl font-semibold mb-4 items-center">LOGIN</h1>
           <form onSubmit={formik.handleSubmit}>
             {/* Email Field */}
             <div className="form-control">
@@ -91,6 +93,10 @@ const Login = () => {
                 <div className="error text-red-500">{formik.errors.password}</div>
               )}
             </div>
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="error text-red-500 mt-2 mb-2">{errorMessage}</div>
+            )}
             {/* Submit Button */}
             <button
               type="submit"
@@ -98,13 +104,10 @@ const Login = () => {
             >
               Login
             </button>
-            {/* Error Message */}
-            {errorMessage && (
-              <div className="error text-red-500 mt-2">{errorMessage}</div>
-            )}
+            
           </form>
-          {/* Toast Container */}
-          <ToastContainer />
+        
+          
         </div>
       </div>
     </div>

@@ -37,9 +37,10 @@ const Signup = () => {
         // Pass the username to the signup function
         await signup(values.email, values.password, values.username);
         toast.success('Sign up successful!');
-        router.push('/fetchdata');
+        router.push('/dashboard');
       } catch (err:any) {
         console.error(err);
+        toast.error('Signup failed');
         console.log(err)
         if (err.code === 'auth/email-already-in-use' ) {
           setErrorMessage('Email is already in use. Please choose a different one.');
@@ -107,6 +108,13 @@ const Signup = () => {
                 <div className="error text-red-500">{formik.errors.password}</div>
               )}
             </div>
+             {/* Error Message */}
+             {formik.errors.email && formik.errors.password && formik.errors.username && (
+              <div className="error text-red-500 mt-2">Please enter email, username, and password</div>
+            )}
+            {errorMessage && (
+    <div className="error text-red-500 mt-2 mb-2">{errorMessage}</div>
+  )}
             {/* Submit Button */}
             <button
               type="submit"
@@ -114,13 +122,8 @@ const Signup = () => {
             >
               Sign up
             </button>
-            {/* Error Message */}
-            {formik.errors.email && formik.errors.password && formik.errors.username && (
-              <div className="error text-red-500 mt-2">Please enter email, username, and password</div>
-            )}
-            {errorMessage && (
-    <div className="error text-red-500 mt-2">{errorMessage}</div>
-  )}
+           
+            
           </form>
           <ToastContainer />
         </div>
