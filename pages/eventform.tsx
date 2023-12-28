@@ -55,7 +55,7 @@ const EventForm = () => {
         if (added) {
           formik.resetForm();
           toast.success('Data Stored in db!');
-          router.push('/dashbord')
+          router.push('/dashboard');
           
         }
       } catch (err) {

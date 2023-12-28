@@ -81,7 +81,9 @@ const RegisterForm = () => {
 
   // Render the registration form
   return (
+   
     <div className="flex items-center justify-center min-w-full mt-20">
+      
       <div className="w-full max-w-md p-4 bg-white rounded shadow-md">
         <div>
           <h1 className="text-2xl font-bold mb-4">REGISTER</h1>
