@@ -20,6 +20,8 @@ const Fulldetails = () => {
   
   const [paymentStatusArray, setPaymentStatusArray] = useState<Array<string>>([]);
   const [notesArray, setNotesArray] = useState<Array<string>>([]);
+ 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -104,7 +106,7 @@ const Fulldetails = () => {
             <th className="py-2 px-4 border-b">Event Type</th>
             <th className="py-2 px-4 border-b">Assigned Person</th>
             <th className="py-2 px-4 border-b">Started</th>
-            <th className="py-2 px-4 border-b">Pending</th>
+           
             <th className="py-2 px-4 border-b">Finished</th>
             <th className="py-2 px-4 border-b">Payment status</th>
             <th className="py-2 px-4 border-b">Notes</th>
@@ -156,13 +158,7 @@ const Fulldetails = () => {
                   onChange={() => handleCheckboxChange(index, 'started')}
                 />
               </td>
-              <td className="py-2 px-4 border-b text-center">
-                <input
-                  type="checkbox"
-                  checked={checkedItems[index]?.pending || false}
-                  onChange={() => handleCheckboxChange(index, 'pending')}
-                />
-              </td>
+              
               <td className="py-2 px-4 border-b text-center">
                 <input
                   type="checkbox"
@@ -190,6 +186,7 @@ const Fulldetails = () => {
                     className="py-1 px-2 border rounded"
                   />
                 </td>
+                
               </tr>
             );
           })}

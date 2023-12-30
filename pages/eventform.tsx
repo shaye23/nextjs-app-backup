@@ -1,5 +1,7 @@
 // components/EventForm.js
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+//import{v4 as uuid4}
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '@/context/AuthContext';
@@ -8,7 +10,7 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Link from 'next/link';
 
 const EventForm = () => {
   const router = useRouter();
@@ -22,9 +24,15 @@ const EventForm = () => {
     contact: '',
     eventType: [],
   };
-  async function addDataToFirestore(userInput:any) {
+  async function addDataToFirestore(userInput: any) {
     try {
-      const docRef = await addDoc(collection(db, 'eventuser'), userInput);
+      
+      const eventId = uuidv4();
+
+      const dataWithId = { ...userInput, id: eventId };
+
+      const docRef = await addDoc(collection(db, 'eventuser'), dataWithId);
+  
       console.log('Document written with id:', docRef.id);
       return true;
     } catch (error) {
@@ -33,7 +41,7 @@ const EventForm = () => {
     }
   }
  
-  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','PromotionLmaterial'];
+  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','PartyHall','MarriageHall'];
   const validationSchema = Yup.object().shape({
     eventName: Yup.string().required('Event Name is required'),
     date: Yup.date().required('Date is required'),
@@ -153,7 +161,7 @@ const EventForm = () => {
             {/* Event Planners Checkboxes */}
                 {/* Event Types Checkboxes */}
                  {/* Event Types Checkboxes */}
-<div className="form-control">
+                 <div className="form-control">
   <label className="block mb-1 font-semibold">Event Types:</label>
   {eventType.map((type: any) => (
     <div key={type} className="flex items-center mb-1">
@@ -172,6 +180,19 @@ const EventForm = () => {
         }}
       />
       <label htmlFor={type} className="ml-2">{type}</label>
+
+      {/* Input area for budget */}
+      {formik.values.eventType.includes(type) && (
+        <input
+          type="text"
+          name={`budget_${type}`}
+          className="ml-2 p-2 border"
+          placeholder="Budget"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[`budget_${type}`]}
+        />
+      )}
     </div>
   ))}
   {formik.touched.eventType && formik.errors.eventType && (
@@ -185,6 +206,14 @@ const EventForm = () => {
             >
               Create Event
             </button>
+            <Link href="/eventable">
+            <button
+              type="submit"
+              className="w-full p-2 border border-white mt-6 bg-[#D3D3D3]  rounded"
+            >
+              Cancel
+            </button>
+            </Link>
             {/* Error Message */}
             {errorMessage && (
               <div className="error text-red-500 mt-2">{errorMessage}</div>

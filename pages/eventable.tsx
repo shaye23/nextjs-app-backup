@@ -107,7 +107,14 @@ const EventTable = () => {
               </tr>
             ))}
           </tbody>
-        </table> 
+
+        </table>
+        <div className="mb-4">
+          <p className="text-gray-600">
+            Total Users: <span className="font-bold">{eventList.length}</span>
+          </p>
+        </div> 
+
         <Link href="/dashboard">
      <button type="submit" className="bg-cyan-700 text-white duration-500 mt-4 px-4">Back</button>
      </Link>

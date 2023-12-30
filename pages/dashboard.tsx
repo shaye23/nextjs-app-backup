@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/config/firebase';
-import { useRouter } from 'next/router';
-import { useAuth } from '@/context/AuthContext';
+import React from 'react';
+
 import Link from 'next/link';
 
 const Dashboard= () => {
@@ -11,6 +8,8 @@ const Dashboard= () => {
     <div className="flex">
       {/* Sidebar */}
       <div className="bg-[#00A9FF] p-3 md:flex md:justify-between relative">
+      
+
         
         <ul className=" md:items-center  space-x-2">
           <li className="mx-2 mb-4">

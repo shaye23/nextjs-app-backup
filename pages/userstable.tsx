@@ -35,13 +35,14 @@ const UserTable = () => {
     // Display a toast message indicating the user is already on the page
     toast.error('You are already in this page');
   };
-
+  
   return (
+    
     <div className="flex">
-      {/* Sidebar */}
+      {/* Sidebar */} 
       <div className="bg-[#00A9FF] p-3 md:flex md:justify-between relative">
         <ul className="md:items-center space-x-2">
-          <li className="mx-2 mb-4">
+          <li className="mx-2 mb-4"> 
             <Link href="/userstable" className="text-lg text-white hover:text-cyan-100 duration-500 "  onClick={handleUsersLinkClick}>
              
                 
@@ -78,7 +79,7 @@ const UserTable = () => {
 
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
-            <tr className="bg-[#A0E9FF]">
+            <tr className="bg-[#A0E9FF] " id="usertable">
               <th className="py-2 px-4 border-b">Name</th>
               <th className="py-2 px-4 border-b">Event Type</th>
               <th className="py-2 px-4 border-b">Phone Number</th>
@@ -89,7 +90,7 @@ const UserTable = () => {
           </thead>
           <tbody>
             {userList.map((user:any) => (
-              <tr className="hover:bg-[#A0E9FF]" key={user.id}>
+              <tr className="hover:bg-[#A0E9FF] cursor-pointer" key={user.id}>
                 <td className="py-2 px-4 border-b text-center">{user.userName}</td>
                 <td className="py-2 px-4 border-b text-center">{user.eventType}</td>
                 <td className="py-2 px-4 border-b text-center">{user.phoneNumber}</td>
@@ -100,6 +101,11 @@ const UserTable = () => {
             ))}
           </tbody>
         </table>
+        <div className="mb-4">
+          <p className="text-gray-600">
+            Total Users: <span className="font-bold">{userList.length}</span>
+          </p>
+        </div>
         <Link href="/dashboard">
 
        

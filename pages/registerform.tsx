@@ -32,12 +32,13 @@ const RegisterForm = () => {
     email: '',
     country: '',
     state: '',
-    eventType: [],
+    eventType: '',
+    approxamount:''
   };
 
   // List of countries
   const countries: any = ['India']; // Add your list of countries here
-  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','PromotionLmaterial'];
+  const eventType:any=['Decoration', 'Catering','Transportation','Entertainment','SpecialGuest','Marriage Hall','Party Hall'];
 
   // List of states for each country
   const states: any = {
@@ -56,7 +57,8 @@ const RegisterForm = () => {
       .matches(/@/, 'Email must contain "@"'),
     country: Yup.string().required('Country is required'),
     state: Yup.string().required('State is required'),
-    eventType: Yup.array().min(1, 'Select at least one event type'),
+    eventType: Yup.array().required('eventtype is required'),
+    approxamount: Yup.string().required('Amount is required'),
   });
 
   // Formik form handling
@@ -189,43 +191,67 @@ const RegisterForm = () => {
                 <div className="error text-red-500">{formik.errors.state}</div>
               )}
             </div>
-               {/* Event Types Checkboxes */}
-               <div className="form-control">
-  <label className="block mb-1 font-semibold">Event Types:</label>
-  {eventType.map((type:any) => (
-    <div key={type} className="flex items-center mb-1">
-      <input
-        type="checkbox"
-        id={type}
-        name="eventType"
-        value={type}
-        checked={formik.values.eventType.includes(type)}
-        onChange={() => {
-          const newEventTypes = formik.values.eventType.includes(type)
-            ? formik.values.eventType.filter((eventType: string) => eventType !== type)
-            : [...formik.values.eventType, type];
-
-          formik.setFieldValue('eventType', newEventTypes);
-        }}
-      />
-      <label htmlFor={type} className="ml-2">{type}</label>
-    </div>
-  ))}
-  {formik.touched.eventType && formik.errors.eventType && (
-    <div className="error text-red-500">{formik.errors.eventType}</div>
-  )}
-</div>
+            <div className="form-control">
+              <label className="block mb-1 font-semibold">Event Type:</label>
+              <select
+                name="eventType"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.eventType}
+                className={`w-full p-2 border rounded mb-1 ${
+                  formik.touched.eventType && formik.errors.eventType ? 'border-red-500' : ''
+                }`}
+              >
+                <option value="" label="Select an event type" />
+                {eventType.map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              {formik.touched.eventType && formik.errors.eventType && (
+                <div className="error text-red-500">{formik.errors.eventType}</div>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="block mb-1 font-semibold">Approx Amount:</label>
+              <input
+                type="text"
+                name="approxamount"
+                className={`w-full p-2 border rounded mb-1 ${
+                  formik.touched.userName && formik.errors.userName ? 'border-red-500' : ''
+                }`}
+                placeholder="Appprox Amount "
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.approxamount}
+              />
+              {formik.touched.approxamount && formik.errors.approxamount && (
+                <div className="error text-red-500">{formik.errors.approxamount}</div>
+              )}
+            </div>
+            
             
             {/* Submit Button */}
+            
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded"
+              className="w-full text-white p-2 rounded mt-6 bg-blue-500"
             >
               Register
             </button>
+            <Link href="/userstable">
+            <button
+              type="submit"
+              className="w-full p-2 border border-white mt-6 bg-[#D3D3D3]  rounded"
+            >
+              Cancel
+            </button>
+            </Link>
           </form>
           
         </div>
+      
 
         {/* Error Message */}
         {errorMessage && (
