@@ -72,7 +72,7 @@ const EventTable = () => {
             </Link>
           </li>
           <li className="mx-4 mb-4">
-            <Link href="/eventable" className="text-lg text-white hover:text-cyan-100 duration-500" onClick={handleUsersLinkClick}>
+            <Link href="/eventable" className="text-lg text-orange-500 duration-500" onClick={handleUsersLinkClick}>
               Events
             </Link>
           </li>

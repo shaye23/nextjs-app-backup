@@ -10,12 +10,13 @@ export const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900  p-5 md:flex md:items-center md:justify-between">
+    <nav className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 p-3 md:flex md:justify-between relative ">
+      {/* bg-gradient-to-b from-blue-700 via-blue-800 to-gray-900 p-3 md:flex md:justify-between relative */}
       <div>
         <span className="text-2xl text-white  font-primary font-semibold cursor-pointer">EVENTLY</span>
       </div>
 
-      <div className="md:flex md:items-center md:justify-between space-x-4">
+      <div className="md:flex md:items-center md:justify-between space-x-4"> 
         {user ? (
           // If the user is authenticated, show logout button and user's profile picture
           <>
@@ -43,11 +44,11 @@ export const Navbar = () => {
         ) : (
           // If the user is not authenticated, show signup and login links
           <>
-            <button className="bg-cyan-700 text-white duration-500 px-6">
+            <button className="bg-white text-primary rounded-md  duration-500 px-6">
               <Link href="/signup">Signup</Link>
             </button>
 
-            <button className="bg-cyan-700 text-white duration-500 px-6">
+            <button className="bg-white text-primary rounded-md duration-500 px-6">
               <Link href="/login">Login</Link>
             </button>
           </> 
