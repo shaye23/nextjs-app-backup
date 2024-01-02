@@ -10,9 +10,9 @@ export const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="bg-[#00A9FF] p-5 md:flex md:items-center md:justify-between">
+    <nav className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900  p-5 md:flex md:items-center md:justify-between">
       <div>
-        <span className="text-2xl text-white cursor-pointer">EVENTLY</span>
+        <span className="text-2xl text-white  font-primary font-semibold cursor-pointer">EVENTLY</span>
       </div>
 
       <div className="md:flex md:items-center md:justify-between space-x-4">
@@ -29,7 +29,7 @@ export const Navbar = () => {
               </li>
             )}
             <button
-              className="bg-cyan-700 text-white duration-500 px-6"
+              className="bg-white text-primary rounded-md  duration-500 px-6"
               onClick={() => {
                 // Implement logout functionality
                 logout();

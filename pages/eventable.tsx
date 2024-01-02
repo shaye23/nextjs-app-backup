@@ -6,12 +6,28 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactPaginate from 'react-paginate';
+
 
 const EventTable = () => {
   const [eventList, setEventList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const { user, logout } = useAuth();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 7;
+
+  const totalPages = Math.ceil(eventList.length / ITEMS_PER_PAGE);
+  const indexOfLastUser = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstUser = indexOfLastUser - ITEMS_PER_PAGE;
+  const currentUsers = eventList.slice(indexOfFirstUser, indexOfLastUser);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected + 1);
+  };
 
   const fetchData = async (collectionName:any, setDataFunction:any) => {
     try {
@@ -27,12 +43,12 @@ const EventTable = () => {
     }
   };
 
-  const handleEventClick = (eventType:any) => {
+  const handleEventClick = (eventType:any,id:any) => {
     console.log('eventtype', eventType);
     // Navigate to Fulldetails page with eventType as a query parameter
     router.push({
       pathname: '/fulldetails',
-      query: { eventType },
+      query: { eventType,id },
     });
   };
 
@@ -48,7 +64,7 @@ const EventTable = () => {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-[#00A9FF] p-3 md:flex md:justify-between relative">
+      <div className="bg-gradient-to-b from-blue-700 via-blue-800 to-gray-900  p-3 md:flex md:justify-between relative">
         <ul className="md:items-center space-x-2">
           <li className="mx-2 mb-4">
             <Link href="/userstable" className="text-lg text-white hover:text-cyan-100 duration-500">
@@ -67,7 +83,7 @@ const EventTable = () => {
       <div className="absolute top-4 right-4 mt-16 mr-4">
           <button
             type="button"
-            className="bg-cyan-700 text-white duration-500 px-4 space-y-0.5"
+            className="bg-cyan-700 text-white duration-500 px-4 rounded-md "
             onClick={() => {
               // Handle button click action
               router.push('/eventform');
@@ -76,7 +92,8 @@ const EventTable = () => {
             Add event
           </button>
         </div>
-        {/* Event Table */}
+        {/* Event Table*/}
+        <div className=''>
         <h1 className="text-2xl font-bold mb-4 space-x-2 py-4s">Event Table</h1>
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
@@ -87,28 +104,50 @@ const EventTable = () => {
               <th className="py-2 px-4 border-b">Venue</th>
               <th className="py-2 px-4 border-b">Contact</th>
               <th className="py-2 px-4 border-b">Event Type</th>
+              <th className="py-2 px-4 border-b">Amount</th>
+            
               {/* Add other event table headers as needed */}
             </tr>
           </thead>
           <tbody>
             {eventList.map((event:any) => (
-              <tr className="hover:bg-[#A0E9FF]"  key={event.id} onClick={() => handleEventClick(event.eventType)}>
+              <tr className="hover:bg-[#A0E9FF]"  key={event.id} onClick={() => handleEventClick(event.eventType,event.id)}>
                 <td className="py-2 px-4 border-b text-center">{event.eventName}</td>
                 <td className="py-2 px-4 border-b text-center">{event.date}</td>
                 <td className="py-2 px-4 border-b text-center">{event.time}</td>
                 <td className="py-2 px-4 border-b text-center">{event.venue}</td>
                 <td className="py-2 px-4 border-b text-center">{event.contact}</td>
-                <td className="py-2 px-4 border-b space-x-2 text-center">
+                <td className="py-2 px-4 border-b">
                   {event.eventType.map((type:any, index:any) => (
-                    <span key={index}>{type} </span>
+                    <span key={index}>{type}<br/></span>
                   ))}
                 </td>
+                <td className="py-2 px-4 border-b text-center">{event.approxamount}</td>
                 {/* Add other event table columns as needed */}
               </tr>
             ))}
           </tbody>
 
         </table>
+        </div>
+        {totalPages > 1 && (
+  <div className="flex justify-center mt-4">
+    <ReactPaginate
+      previousLabel={'<'}
+      nextLabel={'>'}
+      breakLabel={'...'}
+      pageCount={totalPages}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={handlePageClick}
+      containerClassName={'pagination'}
+      activeClassName={'active'}
+      previousClassName={'pagination-previous'}
+      nextClassName={'pagination-next'}
+      pageClassName={'pagination-page'}
+    />
+  </div>
+)}
         <div className="mb-4">
           <p className="text-gray-600">
             Total Users: <span className="font-bold">{eventList.length}</span>
@@ -116,7 +155,7 @@ const EventTable = () => {
         </div> 
 
         <Link href="/dashboard">
-     <button type="submit" className="bg-cyan-700 text-white duration-500 mt-4 px-4">Back</button>
+     <button type="submit" className="bg-cyan-700 text-white duration-500 mt-4 rounded-md  px-4">Back</button>
      </Link>
        
       </div>

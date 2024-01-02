@@ -23,6 +23,7 @@ const EventForm = () => {
     venue: '',
     contact: '',
     eventType: [],
+    approxamount:''
   };
   async function addDataToFirestore(userInput: any) {
     try {
@@ -50,7 +51,27 @@ const EventForm = () => {
     contact: Yup.string()
     .required('Contact is required')
     .matches(/^\d{10}$/, 'Contact must be exactly 10 digits'),
-    eventType: Yup.array().min(1, 'Select at least one event type'),
+   // eventType: Yup.array().min(1, 'Select at least one event type'),
+    approxamount: Yup.string().required('Amount is required'),
+
+    eventType: Yup.array()
+    .min(1, 'Select at least one event type')
+    .test({
+      name: 'approxAmountCheck',
+      message: 'Sum of approximate amounts should be equal to the total amount',
+      test: function (eventTypes: string[] | undefined) {
+        if (!eventTypes) {
+          return false;
+        }
+
+        const totalApproxAmount = eventTypes.reduce((total, eventType) => {
+          const eventTypeBudget = this.parent[`budget_${eventType}`] || '0';
+          return total + parseFloat(eventTypeBudget);
+        }, 0);
+
+        return parseFloat(this.parent.approxamount) === totalApproxAmount;
+      },
+    }),
   });
   
  
@@ -75,14 +96,14 @@ const EventForm = () => {
     validationSchema, // Move validationSchema here
   });
   return (
-    <div className="flex items-center justify-center min-w-full mt-20">
-      <div className="w-full max-w-md p-4 bg-white rounded shadow-md">
+    <div className="flex items-center bg-registerbg bg-cover bg-center justify-center min-w-full mt-0 .py-20">
+    <div className="w-1/2 max-w-md p-4 rounded bg-white  bg-opacity-60 backdrop-filter backdrop-blur-lg shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] my-8">
         <div>
-          <h1 className="text-2xl font-extrabold mb-4 font-serif">New Event</h1>
+          <h1 className="text-2xl font-boldfont-sans text-primary text-center mb-4 ">New Event</h1>
           <form onSubmit={formik.handleSubmit}>
             {/* Event Name Field */}
             <div className="form-control">
-              <label className="block mb-1 font-bold ">Name of Event:</label>
+              <label className="block mb-1 font-semibold ">Name of Event:</label>
               <input
                 type="text"
                 name="eventName"
@@ -158,6 +179,24 @@ const EventForm = () => {
                 <div className="error text-red-500">{formik.errors.contact}</div>
               )}
             </div>
+            <div className="form-control">
+              <label className="block mb-1 font-semibold">Approx Amount:</label>
+              <input
+                type="text"
+                name="approxamount"
+                className={`w-full p-2 border rounded mb-1 ${
+                  formik.touched.userName && formik.errors.userName ? 'border-red-500' : ''
+                }`}
+                placeholder="Appprox Amount "
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.approxamount}
+              />
+              {formik.touched.approxamount && formik.errors.approxamount && (
+                <div className="error text-red-500">{formik.errors.approxamount}</div>
+              )}
+            </div>
+            
             {/* Event Planners Checkboxes */}
                 {/* Event Types Checkboxes */}
                  {/* Event Types Checkboxes */}
@@ -198,6 +237,7 @@ const EventForm = () => {
   {formik.touched.eventType && formik.errors.eventType && (
     <div className="error text-red-500">{formik.errors.eventType}</div>
   )}
+  
 </div>
         {/* Submit Button */}
             <button

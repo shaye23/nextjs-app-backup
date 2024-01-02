@@ -57,7 +57,7 @@ const RegisterForm = () => {
       .matches(/@/, 'Email must contain "@"'),
     country: Yup.string().required('Country is required'),
     state: Yup.string().required('State is required'),
-    eventType: Yup.array().required('eventtype is required'),
+    eventType: Yup.string().required('eventtype is required'),
     approxamount: Yup.string().required('Amount is required'),
   });
 
@@ -84,22 +84,22 @@ const RegisterForm = () => {
   // Render the registration form
   return (
    
-    <div className="flex items-center justify-center min-w-full mt-20">
+    <div className="flex items-center bg-registerbg bg-cover bg-center justify-center min-w-full  mt-0 .py-20">
       
-      <div className="w-full max-w-md p-4 bg-white rounded shadow-md">
-        <div>
-          <h1 className="text-2xl font-bold mb-4">REGISTER</h1>
+      <div className="w-1/2 max-w-md p-4 rounded bg-white  bg-opacity-60 backdrop-filter backdrop-blur-lg shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] my-8">
+      <div>
+          <h1 className="text-2xl font-bold font-sans text-primary text-center mb-4">REGISTER</h1>
           <form onSubmit={formik.handleSubmit}>
             {/* User Name Field */}
             <div className="form-control">
-              <label className="block mb-1 font-semibold">Name:</label>
+              <label className="block mb-1  font-semibold">Name</label>
               <input
                 type="text"
                 name="userName"
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.userName && formik.errors.userName ? 'border-red-500' : ''
                 }`}
-                placeholder="username"
+                placeholder="Username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.userName}
@@ -110,14 +110,14 @@ const RegisterForm = () => {
             </div>
             {/* Phone Number Field */}
             <div className="form-control">
-              <label className="block mb-1 font-semibold">Phone Number:</label>
+              <label className="block mb-1  font-semibold">Phone Number</label>
               <input
                 type="tel"
                 name="phoneNumber"
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.phoneNumber && formik.errors.phoneNumber ? 'border-red-500' : ''
                 }`}
-                placeholder="Your phonenumber"
+                placeholder="Your PhoneNumber"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.phoneNumber}
@@ -128,14 +128,14 @@ const RegisterForm = () => {
             </div>
             {/* Email Field */}
             <div className="form-control">
-              <label className="block mb-1 font-semibold">Email:</label>
+              <label className="block mb-1  font-semibold">Email</label>
               <input
                 type="email"
                 name="email"
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.email && formik.errors.email ? 'border-red-500' : ''
                 }`}
-                placeholder="Your email"
+                placeholder="Your Email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -146,7 +146,7 @@ const RegisterForm = () => {
             </div>
             {/* Country Dropdown */}
             <div className="form-control">
-              <label className="block mb-2 font-semibold">Country:</label>
+              <label className="block mb-2   font-semibold">Country</label>
               <select
                 name="country"
                 onChange={formik.handleChange}
@@ -155,6 +155,7 @@ const RegisterForm = () => {
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.country && formik.errors.country ? 'border-red-500' : ''
                 }`}
+                style={{ color: 'gray' }}
               >
                 <option value="" label="Select a country" />
                 {countries.map((country: any) => (
@@ -178,6 +179,7 @@ const RegisterForm = () => {
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.state && formik.errors.state ? 'border-red-500' : ''
                 }`}
+                style={{ color: 'gray' }}
               >
                 <option value="" label="Select a state" />
                 {formik.values.country &&
@@ -201,6 +203,7 @@ const RegisterForm = () => {
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.eventType && formik.errors.eventType ? 'border-red-500' : ''
                 }`}
+                style={{ color: 'gray' }}
               >
                 <option value="" label="Select an event type" />
                 {eventType.map((type: any) => (
@@ -221,7 +224,7 @@ const RegisterForm = () => {
                 className={`w-full p-2 border rounded mb-1 ${
                   formik.touched.userName && formik.errors.userName ? 'border-red-500' : ''
                 }`}
-                placeholder="Appprox Amount "
+                placeholder="Approx Amount "
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.approxamount}
@@ -249,7 +252,7 @@ const RegisterForm = () => {
             </button>
             </Link>
           </form>
-          
+           
         </div>
       
 
